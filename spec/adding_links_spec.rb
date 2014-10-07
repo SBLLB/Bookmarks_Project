@@ -24,6 +24,7 @@ feature "User adds a new link" do
 	end
 
 
+
 	def add_link(url, title, tags = [])
 		within('#new-link') do
 			fill_in 'url', :with => url
