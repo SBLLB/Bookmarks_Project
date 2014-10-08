@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "user signs up" do 
+feature "User signs up" do 
 
 
 	scenario "when being logged in" do 
