@@ -1,6 +1,9 @@
 require 'spec_helper'
+require_relative 'helpers/session'
 
 feature "User logs in" do 
+
+include SessionHelpers
 
 	before(:each) do
 		 User.create(:email => "test@test.com",
@@ -22,10 +25,4 @@ feature "User logs in" do
 		expect(page).not_to have_content("Welcome, test@test.com")
 	end
 
-	def sign_in(email, password)
-		visit '/sessions/new'
-		fill_in 'email', :with => email
-		fill_in 'password', :with => password
-		click_button 'Sign In'
-	end
 end

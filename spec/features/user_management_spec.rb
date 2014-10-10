@@ -1,7 +1,9 @@
 require 'spec_helper'
+require_relative 'helpers/session'
 
 feature "User signs up" do 
 
+include SessionHelpers
 
 	scenario "when being logged in" do 
 
@@ -23,14 +25,4 @@ feature "User signs up" do
 		expect(page).to have_content("This email is already taken.")
 	end 
 
-	def sign_up(email = "alice@example.com", 
-				password = "oranges!",
-				password_confirmation = "oranges!")
-		visit'/users/new'
-		expect(page.status_code).to eq(200)
-		fill_in :email, :with => email
-		fill_in :password, :with => password
-		fill_in :password_confirmation, :with => password_confirmation
-		click_button "Sign Up"
-	end
 end

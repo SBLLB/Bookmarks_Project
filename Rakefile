@@ -20,3 +20,6 @@ end
 	# To force the creation of all tables as they are
 	# described in your models, even if this
 	# may lead to data loss, use auto_migrate:
+
+	# When running to apply to test env 
+	# Run in command line - rake auto_migrate "RACK_ENV"=test

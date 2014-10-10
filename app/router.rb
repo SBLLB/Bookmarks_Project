@@ -17,6 +17,7 @@ class BookmarkManager < Sinatra::Base
   set :session_secret, 'super secret'
 
   use Rack::Flash
+  use Rack::MethodOverride
 
   get '/' do
     @links = Link.all
@@ -62,6 +63,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/sessions' do
+
     email, password = params[:email], params[:password]  
     user = User.authenticate(email, password)
     if user
@@ -69,8 +71,26 @@ class BookmarkManager < Sinatra::Base
       redirect to('/')
     else
       flash[:errors] = ["The email or password is incorrect"]
+      erb :sessions_new
     end
-    erb :sessions_new
+  end 
+
+  delete '/sessions' do
+    flash[:notice] = "Goodbye!"
+    session[:user_id] = nil
+    redirect to('/')
+  end
+
+  post '/reset_password' do 
+    erb :reset_password
+  end 
+ 
+  post '/reset_password2' do 
+    user = User.first(:email => params[:email])
+    user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
+    user.password_token_timestamp = Time.now
+    user.save
+    erb :reset_password2
   end 
 
 
