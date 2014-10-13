@@ -1,16 +1,21 @@
 require 'sinatra/base'
 require 'data_mapper'
 require 'rack-flash'
+require 'mailgun'
 
 require './lib/link'
 require './lib/tag'
 require './lib/user'
+require './lib/mail'
+
 
 require_relative 'helpers/application'
 require_relative 'data_mapper_setup'
 
 
 class BookmarkManager < Sinatra::Base
+ 
+ include Mail
 
 	set :views, Proc.new {File.join(root, "..", "views")}
   enable :sessions
@@ -90,9 +95,19 @@ class BookmarkManager < Sinatra::Base
     user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
     user.password_token_timestamp = Time.now
     user.save
+    send_simple_message(user)
     erb :reset_password2
-  end 
+  end
+ 
+ # get '/reset_password/:token' do 
 
+
+ #    erb :create_new_password
+ #  end  
+
+ #  post '/reset_password/confirma'
+
+  
 
   # start the server if ruby file executed directly
   run! if app_file == $0

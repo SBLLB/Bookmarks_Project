@@ -1,6 +1,7 @@
 require './lib/link'
 require './lib/user'
 require './lib/tag'
+require './lib/mail'
 
 
 env = ENV["RACK_ENV"] || "development"

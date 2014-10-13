@@ -6,7 +6,7 @@ feature "User forgets password" do
 include SessionHelpers
 
 	before(:each) do
-		 User.create(:email => "test@test.com",
+		 User.create(:email => "mail@rachelnolan.com",
 	    :password => 'test',
 	    :password_confirmation => 'test')
 	end
@@ -15,8 +15,9 @@ include SessionHelpers
 		visit '/sessions/new'
 		expect(page).not_to have_content("Welcome, test@test.com")
 		click_button 'Forgotten Password'
-		fill_in :email, :with => 'test@test.com'
+		fill_in :email, :with => 'mail@rachelnolan.com'
 		click_button "Send Reset Link"
 		expect(page).to have_content('An email has been sent to you.')
 	end
+
 end
