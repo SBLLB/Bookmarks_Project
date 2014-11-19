@@ -92,11 +92,16 @@ class BookmarkManager < Sinatra::Base
  
   post '/reset_password2' do 
     user = User.first(:email => params[:email])
-    user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
-    user.password_token_timestamp = Time.now
-    user.save
-    send_simple_message(user)
-    erb :reset_password2
+    if user 
+      user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
+      user.password_token_timestamp = Time.now
+      send_simple_message(user)
+      user.save
+      "Check your emails"
+    else
+      "You entered an invalid email - create flash error"
+      erb :reset_password2
+    end
   end
  
  # get '/reset_password/:token' do 
